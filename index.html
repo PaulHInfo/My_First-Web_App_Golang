@@ -11,10 +11,12 @@
 
     <script>
         function increment() {
+            // JS 
             fetch('/increment')
                 .then(response => response.text())
                 .then(data => document.getElementById('count').textContent = data);
-        }
+            fetch('/parle')
+            }
     </script>
 </body>
 </html>
