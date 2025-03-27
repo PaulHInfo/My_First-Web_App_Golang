@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compteur Go</title>
+</head>
+<body>
+    <h1>Compteur : <span id="count">0</span></h1>
+    <button onclick="increment()">Incrémenter (jusqu'à 12)</button>
+
+    <script>
+        function increment() {
+            fetch('/increment')
+                .then(response => response.text())
+                .then(data => document.getElementById('count').textContent = data);
+        }
+    </script>
+</body>
+</html>
