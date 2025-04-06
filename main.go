@@ -1,21 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
-	"sync"
-)
-
-var (
-	counter int
-	mu      sync.Mutex // -
 )
 
 func main() {
 	http.HandleFunc("/", servePage)
-	http.HandleFunc("/increment", incrementCounter)
-	http.HandleFunc("/parle", parle)
+	http.HandleFunc("/display", handleDisplay)
 
 	fmt.Println("Serveur démarré sur http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
@@ -25,16 +18,20 @@ func servePage(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "index.html")
 }
 
-func incrementCounter(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	counter++
-	if counter > 12 {
-		counter = 0
+func handleDisplay(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+		return
 	}
 
-	mu.Unlock()
-	w.Write([]byte(strconv.Itoa(counter)))
-}
-func parle(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("le btn a été cliqué")
+	var numbers []int
+	err := json.NewDecoder(r.Body).Decode(&numbers)
+	if err != nil {
+		http.Error(w, "Erreur de décodage JSON", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println("Tableau reçu :", numbers) // Affichage côté terminal
+
+	w.Write([]byte("Tableau reçu avec succès !"))
 }
