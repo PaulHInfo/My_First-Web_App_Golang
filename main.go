@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", servePage)
+	http.HandleFunc("/", servePage) //funct servePage va etre appeler
 	http.HandleFunc("/display", handleDisplay)
 
 	fmt.Println("Serveur démarré sur http://localhost:8080")
@@ -34,4 +34,8 @@ func handleDisplay(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Tableau reçu :", numbers) // Affichage côté terminal
 
 	w.Write([]byte("Tableau reçu avec succès !"))
+}
+
+func sortInsertion(t []int) {
+
 }
