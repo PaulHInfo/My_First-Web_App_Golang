@@ -1,41 +1,20 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/", servePage) //funct servePage va etre appeler
-	http.HandleFunc("/display", handleDisplay)
-
-	fmt.Println("Serveur démarré sur http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
-}
-
-func servePage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "index.html")
-}
-
-func handleDisplay(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var numbers []int
-	err := json.NewDecoder(r.Body).Decode(&numbers)
+	http.HandleFunc("/", hello)
+	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
-		http.Error(w, "Erreur de décodage JSON", http.StatusBadRequest)
-		return
+		log.Fatal(err)
 	}
-
-	fmt.Println("Tableau reçu :", numbers) // Affichage côté terminal
-
-	w.Write([]byte("Tableau reçu avec succès !"))
 }
-
-func sortInsertion(t []int) {
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Hello World")
+	fmt.Fprint(w, "Adieu") // affiche sur la page
 
 }
