@@ -31,6 +31,10 @@ http://localhost:8000/search?t=go&p=1
 t & p sont des paramètre
 */
 func search(w http.ResponseWriter, r *http.Request) {
+	t := r.URL.Query().Get("t")
+	p := r.URL.Query().Get("p")
 	fmt.Println("salut")
 	fmt.Fprint(w, "salutttt")
+	fmt.Fprint(w, t)
+	fmt.Fprint(w, p)
 }
