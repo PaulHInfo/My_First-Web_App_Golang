@@ -6,35 +6,12 @@
     <title>Envoi de tableau</title>
 </head>
 <body>
-    <h1>Générer et envoyer un tableau d'entiers</h1>
-    <button onclick="sendArray()">Générer et Envoyer</button>
-    <p id="response"></p>
-    <p id= "tab"></p>
-
-    <script>
-        function getRandomArray(size) {
-            let arr = [];
-            for (let i = 0; i < size; i++) {
-                arr.push(Math.floor(Math.random() * 100)); // Nombre entre 0 et 99
-            }
-            return arr;
-        }
-
-        function sendArray() {
-            let numbers = getRandomArray(10); // Générer un tableau de 10 nombres aléatoires
-            console.log("Tableau généré :", numbers);
-
-            fetch('/display', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(numbers)
-            })
-            .then(response => response.text())
-            .then(data => document.getElementById('response').textContent = data)
-            .catch(error => console.error('Erreur:', error));
-        }
-    </script>
+    <div>
+        <form method="POST" action="/actio">
+            <label>Username</label><input type="text" name="Username">
+            <label>password</label><input type="password" name="password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>

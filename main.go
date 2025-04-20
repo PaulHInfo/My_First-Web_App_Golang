@@ -10,12 +10,21 @@ func main() {
 	http.HandleFunc("/", hello)
 	http.HandleFunc("/test", test)
 	http.HandleFunc("/search", search)
+	http.HandleFunc("/login", login)
 
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+func login(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		http.ServeFile(w, r, "index.html")
+		return
+	}
+}
+
 func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Hello World")
 	fmt.Fprint(w, "Adieu") // affiche sur la page
