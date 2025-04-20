@@ -1,12 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 )
 
-type User struct {
+type Users struct {
 	Name  string `json:"name"` // nom en json
 	Pswd  string `json:"-"`    // ignorer lors du JSON
 	Email string `json:"email"`
@@ -17,7 +18,7 @@ func main() {
 	http.HandleFunc("/test", test)
 	http.HandleFunc("/search", search)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/user", users)
+	http.HandleFunc("/user", user)
 
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
@@ -25,13 +26,20 @@ func main() {
 	}
 }
 func user(w http.ResponseWriter, r *http.Request) {
-	users = []User{
+	//fake data
+	u := []Users{
 		{Name: "bob", Pswd: "uriewu", Email: "test@gmail.com"},
-		{Name: "alicia", Pswd: "kaka", Email: "etstasdf@gmail.com"}
+		{Name: "alicia", Pswd: "kaka", Email: "etstasdf@gmail.com"},
 	}
+	//encodage
+
+	b, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(b)
 }
-
-
 
 func login(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
