@@ -6,17 +6,33 @@ import (
 	"net/http"
 )
 
+type User struct {
+	Name  string `json:"name"` // nom en json
+	Pswd  string `json:"-"`    // ignorer lors du JSON
+	Email string `json:"email"`
+}
+
 func main() {
 	http.HandleFunc("/", hello)
 	http.HandleFunc("/test", test)
 	http.HandleFunc("/search", search)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/user", users)
 
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+func user(w http.ResponseWriter, r *http.Request) {
+	users = []User{
+		{Name: "bob", Pswd: "uriewu", Email: "test@gmail.com"},
+		{Name: "alicia", Pswd: "kaka", Email: "etstasdf@gmail.com"}
+	}
+}
+
+
+
 func login(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
