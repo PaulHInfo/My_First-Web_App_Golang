@@ -22,6 +22,15 @@ func login(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		http.ServeFile(w, r, "index.html")
 		return
+	case "POST":
+		if err := r.ParseForm(); err != nil {
+			fmt.Print(err)
+		}
+		u := r.FormValue("Username")
+		p := r.FormValue("password")
+		fmt.Print(u)
+		fmt.Print("   ")
+		fmt.Print(p)
 	}
 }
 
